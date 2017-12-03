@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html>
+<title>Efficient Water Management System</title>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="refresh" content="25">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script>
+
+
+      function initMap() {
+          var n={{n}};
+          var latitude={{latitude}};
+          var longitude={{longitude}}
+          var mapCanvas = document.getElementById("map");
+          var mapOptions = {
+          center: new google.maps.LatLng(latitude[0],longitude[0]),
+          zoom:17,
+          mapTypeId:google.maps.MapTypeId.HYBRID
+          };
+          var mapOptions2 = {
+          center: new google.maps.LatLng(latitude[1],longitude[1]),
+          zoom:18,
+          mapTypeId:google.maps.MapTypeId.HYBRID
+          };
+          var mapOptions3 = {
+          center: new google.maps.LatLng(latitude[2],longitude[2]),
+          zoom:17,
+          mapTypeId:google.maps.MapTypeId.HYBRID
+          };
+          var mapOptions4 = {
+          center: new google.maps.LatLng(latitude[3],longitude[3]),
+          zoom:18,
+          mapTypeId:google.maps.MapTypeId.HYBRID
+          };
+          var map = new google.maps.Map(mapCanvas,mapOptions);
+          map.setTilt(100);
+
+          if(parseInt({{sensor3}})<30 && parseInt({{sensor5}})<=200)
+          {
+               var marker = new google.maps.Marker({
+                    icon :'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                    position: mapOptions.center,
+                    map: map,
+               		title:'Plant 1' + '\n' + 'Health: POOR'+'\n'+'Rain: NO'+'\n'+'Actuator: ON',
+               });
+          }
+
+         else if(parseInt({{sensor3}})<30 && parseInt({{sensor5}})>=200)
+          {
+               var marker = new google.maps.Marker({
+                    icon :'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                    position: mapOptions.center,
+                    map: map,
+                    title:'Plant 1' + '\n' + 'Health: POOR'+'\n'+'Rain: YES'+'\n'+'Actuator: OFF',
+               });
+               marker.setAnimation(google.maps.Animation.BOUNCE);
+          }
+          else if(parseInt({{sensor3}})<65 && parseInt({{sensor5}})<200)
+          {
+               var marker = new google.maps.Marker({
+                    icon :'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                    position: mapOptions.center,
+                    map: map,
+                    title:'Plant 1' + '\n' + 'Health: MODERATE'+'\n'+'Rain: NO'+'\n'+'Actuator: OFF',
+               });
+          }
+          else if(parseInt({{sensor3}})<65 && parseInt({{sensor5}})>200)
+          {
+               var marker = new google.maps.Marker({
+                    icon :'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                    position: mapOptions.center,
+                    map: map,
+                    title:'Plant 1' + '\n' + 'Health: MODERATE'+'\n'+'Rain: YES'+'\n'+'Actuator: OFF',
+               });
+               marker.setAnimation(google.maps.Animation.BOUNCE);
+          }
+
+          else if(parseInt({{sensor3}})>65)
+          {
+               if(parseInt({{sensor5}})<200)
+               {
+                var marker = new google.maps.Marker({
+                    icon :'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+                    position: mapOptions.center,
+                    map: map,
+                    title:'Plant 1' + '\n' + 'Health: GOOD'+'\n'+'Rain: NO'+'\n'+'Actuator: OFF',
+               });
+               }
+               else
+               {
+                   var marker = new google.maps.Marker({
+                    icon :'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+                    position: mapOptions.center,
+                    map: map,
+                    title:'Plant 1' + '\n' + 'Health: GOOD'+'\n'+'Rain: YES'+'\n'+'Actuator: OFF',
+               });
+               marker.setAnimation(google.maps.Animation.BOUNCE);
+               }
+          }
+          marker.setMap(map);
+          //plant2
+          if(parseInt({{sensor6}})<30 && parseInt({{sensor5}})<=200)
+          {
+               var marker2 = new google.maps.Marker({
+                    icon :'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                    position: mapOptions2.center,
+                    map: map,
+                    title:'Plant 2' + '\n' + 'Health: POOR'+'\n'+'Rain: NO'+'\n'+'Actuator: ON',
+               });
+          }
+
+         else if(parseInt({{sensor6}})<30 && parseInt({{sensor5}})>=200)
+          {
+               var marker2 = new google.maps.Marker({
+                    icon :'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                    position: mapOptions2.center,
+                    map: map,
+                    title:'Plant 2' + '\n' + 'Health: POOR'+'\n'+'Rain: YES'+'\n'+'Actuator: OFF',
+               });
+               marker2.setAnimation(google.maps.Animation.BOUNCE);
+          }
+          else if(parseInt({{sensor6}})<65 && parseInt({{sensor5}})<200)
+          {
+               var marker2 = new google.maps.Marker({
+                    icon :'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                    position: mapOptions2.center,
+                    map: map,
+                    title:'Plant 2' + '\n' + 'Health: MODERATE'+'\n'+'Rain: NO'+'\n'+'Actuator: OFF',
+               });
+          }
+          else if(parseInt({{sensor6}})<65 && parseInt({{sensor5}})>200)
+          {
+               var marker2 = new google.maps.Marker({
+                    icon :'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                    position: mapOptions2.center,
+                    map: map,
+                    title:'Plant 2' + '\n' + 'Health: MODERATE'+'\n'+'Rain: YES'+'\n'+'Actuator: OFF',
+               });
+               marker2.setAnimation(google.maps.Animation.BOUNCE);
+          }
+
+          else if(parseInt({{sensor6}})>65)
+          {
+               if(parseInt({{sensor5}})<200)
+               {
+                var marker2 = new google.maps.Marker({
+                    icon :'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+                    position: mapOptions2.center,
+                    map: map,
+                    title:'Plant 2' + '\n' + 'Health: GOOD'+'\n'+'Rain: NO'+'\n'+'Actuator: OFF',
+               });
+               }
+               else 
+               {
+                   var marker2 = new google.maps.Marker({
+                    icon :'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+                    position: mapOptions2.center,
+                    map: map,
+                    title:'Plant 2' + '\n' + 'Health: GOOD'+'\n'+'Rain: YES'+'\n'+'Actuator: OFF',
+               });
+               marker2.setAnimation(google.maps.Animation.BOUNCE);
+               }
+          }
+          marker2.setMap(map);
+          if(n>2)
+          {
+            var marker3 = new google.maps.Marker({
+                    icon :'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                    position: mapOptions3.center,
+                    map: map,
+                    title:'Plant 3',
+               });
+               marker3.setMap(map);
+
+            if(n>3)
+            {
+              var marker4 = new google.maps.Marker({
+                    icon :'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                    position: mapOptions4.center,
+                    map: map,
+                    title:'Plant 4' ,
+               });
+               marker4.setMap(map);
+            }  
+
+          }
+
+      }
+    </script>
+       
+<script async defer src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDkRzDfXvy_foBfGSF4Uyyj2lTnBPLzFF4 &callback=initMap"></script>
+
+<style>
+body, html {
+    height: 100%;
+    font-family: "Montserrat", sans-serif;
+    color: black;
+}
+.bgimg {
+    background-position: center;
+    background-size: cover;
+    background-image: url("http://www.hdwallpapers.in/download/flower_fields-1440x900.jpg");
+    min-height: 55%;
+}
+.menu {
+    display: none;
+}
+#ClassDiagram {
+  margin-left:100px;
+  margin-right:100px;
+}
+#thermometer {
+  margin-top:25px;
+}
+    #container-graph {
+    min-width: 310px;
+    max-width: 800px;
+    height: 400px;
+    margin: 0 auto
+}
+
+</style>
+<script src = "https://maps.googleapis.com/maps/api/js"></script>
+</head>
+<body>
+
+<!-- Links (sit on top) -->
+<div class="w3-top">
+  <div class="w3-row w3-padding w3-black">
+    <div class="w3-col s3">
+      <a href="#" class="w3-button w3-block w3-black">HOME</a>
+    </div>
+
+    <div class="w3-col s3">
+      <a href="#about" class="w3-button w3-block w3-black">ABOUT</a>
+    </div>
+
+    <div class="w3-col s3">
+      <a href="#locations" class="w3-button w3-block w3-black">LOCATIONS</a>
+    </div>
+
+    <div class="w3-col s3">
+      <a href="#menu" class="w3-button w3-block w3-black">ANALYTICS</a>
+    </div>
+  </div>
+</div>
+
+<!-- Header with image -->
+<header class="bgimg w3-display-container w3-grayscale-min" id="home">
+  <div class="w3-display-bottomleft w3-center w3-padding-large w3-hide-small">
+    <span class="w3-tag"></span>
+  </div>
+  <div class="w3-display-middle w3-center">
+    <span id="mainhead" class="w3-text-white" style="font-size:70px">Efficient Water Management System</span>
+  </div>
+  <div class="w3-display-bottomright w3-center w3-padding-large">
+    <span class="w3-text-white">GROUP 25--UG2(IIITS)</span>
+  </div>
+</header>
+<h5 class="w3-center w3-padding-48" style="font-size: 20px;"><span class="w3-tag w3-wide">PRESENT READINGS</span></h5>
+<div style="width:100% height: 400px;">
+    <div id="container-temp" style="width: 300px; height: 200px; float: left"></div>
+    <div id="container-humi" style="width: 300px; height: 200px; float: left"></div>
+    <div id="container-moi" style="width: 300px; height: 200px; float: left"></div>
+    <div id="container-level" style="width: 300px; height: 200px; float: left"></div>
+    <div id="container-sensor" style="width: 300px; height: 200px; float: left"></div>
+</div>
+
+<!-- Add a background color and large text to the whole page -->
+<!--<div class="w3-sand w3-grayscale w3-large">-->
+
+<!-- About Container -->
+<div class="w3-container" id="about">
+  <div class="w3-content" style="max-width:700px">
+    <h5 class="w3-center w3-padding-64" style="font-size: 20px"><span class="w3-tag w3-wide">ABOUT OUR PROJECT</span></h5>
+    <p>Through our project, we aim to come up with web GIS based IoT solutions for efficient water management by applying the concepts of Relational Databases and Object-Oriented Programming.</p>
+
+    <p></p>
+    <div class="w3-panel w3-leftbar w3-light-grey">
+      <p><i>"Save water, it will save you later."</i></p>
+    </div>
+  </div>
+</div>
+
+<div class="w3-container" id="locations" width="100%">
+  <div class="w3-content" widht="90%">
+    <h5 class="w3-center w3-padding-48" style="font-size: 20px;"><span class="w3-tag w3-wide">LOCATIONS</span></h5>
+        <div id="map" style="width:100%; height: 600px;"></div>
+        <table cellspacing="20">
+            <tr>
+            <td><img src="http://maps.google.com/mapfiles/ms/icons/red-dot.png">health:poor</td>
+            <td><img src="http://maps.google.com/mapfiles/ms/icons/blue-dot.png">health:moderate</td>
+            <td><img src="http://maps.google.com/mapfiles/ms/icons/green-dot.png">health:good</td>
+            <td>Bouncing:raining</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<!-- Menu Container -->
+<div class="w3-container" id="menu" width="100%">
+  <div class="w3-content" width="100%">
+
+    <h5 class="w3-center w3-padding-48" style="font-size: 20px;"><span class="w3-tag w3-wide">SENSOR ANALYTICS</span></h5>
+
+    <div class="w3-row w3-center w3-card-2 w3-padding" >
+      <a href="javascript:void(0)" onclick="openMenu(event, 'firsthalf');" id="myLink">
+        <div class="w3-col s6 tablink" width="100%">Plant1</div>
+      </a>
+      <a href="javascript:void(0)" onclick="openMenu(event, 'secondhalf');" id="myLink">
+        <div class="w3-col s6 tablink" width="100%">Plant2</div>
+      </a>
+    </div>
+
+    <div id="firsthalf" class="w3-container menu w3-padding-48 w3-card-2">
+        <center>
+        <table>
+        <tr>
+        <td id="container1" style="min-width: 310px; max-width: 350px; height: 300px; margin: 0 auto;"></td>
+        <td id="container2" style="min-width: 310px; max-width: 350px; height: 300px; margin: 0 auto;"></td>
+        <td id="container3" style="min-width: 310px; max-width: 350px; height: 300px; margin: 0 auto;"></td>
+        </tr>
+        </table></center>
+    <div id="container-graph"></div>
+<script>
+Highcharts.chart('container-graph', {
+
+    title: {
+        text: 'Sensor Readings '
+    },
+
+
+
+    yAxis: {
+        title: {
+            text: 'sensor readings'
+        }
+    },
+    xAxis: {
+        title: {
+            text: 'previous stages'
+        }
+    },
+
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+            pointStart: -9
+        }
+    },
+
+    series: [{
+        name: 'temperature',
+        data: {{graph1}}
+    }, {
+        name: 'humidity',
+        data: {{graph2}}
+    }, {
+        name: 'soilmoisture',
+        data: {{graph3}}
+    }],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+});</script>
+    </div>
+<div id="secondhalf" class="w3-container menu w3-padding-48 w3-card-2">
+        <center>
+        <table>
+        <tr>
+        <td id="container5" style="min-width: 310px; max-width: 350px; height: 300px; margin: 0 auto;"></td>
+        <td id="container6" style="min-width: 310px; max-width: 350px; height: 300px; margin: 0 auto;"></td>
+        <td id="container4" style="min-width: 310px; max-width: 350px; height: 300px; margin: 0 auto;"></td>
+        </tr>
+        </table></center>
+<div id="container-graph1"></div>
+<script>
+Highcharts.chart('container-graph1', {
+
+    title: {
+        text: 'Sensor Readings '
+    },
+
+
+
+    yAxis: {
+        title: {
+            text: 'sensor readings'
+        }
+    },
+    xAxis: {
+        title: {
+            text: 'previous stages'
+        }
+    },
+
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+            pointStart: -9
+        }
+    },
+
+    series: [{
+        name: 'temperature',
+        data: {{graph1}}
+    }, {
+        name: 'humidity',
+        data: {{graph2}}
+    },{
+        name: 'soilmoisture',
+        data: {{graph4}}
+    }],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+});</script>
+</div>
+</div>
+
+
+<div class="w3-container" id="addplant" width="100%">
+  <div class="w3-content" widht="90%">
+    <h5 class="w3-center w3-padding-48" style="font-size: 20px;"><span class="w3-tag w3-wide">ADD PLANT</span></h5>
+
+  <form action = "{% url 'addplant' %}" method="POST" class="form-horizontal">
+       {% csrf_token %}
+  
+<fieldset>
+
+<!-- Form Name -->
+<legend></legend>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="plantid">Plant ID</label>  
+  <div class="col-md-5">
+  <input id="plantid" name="plantid" type="text" placeholder="Enter the ID of your plant." class="form-control input-md" required="">
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="lat">Latitude</label>  
+  <div class="col-md-5">
+  <input id="lat" name="lat" type="text" placeholder="Latitude of plant location" class="form-control input-md" required="">
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="long">Longitude</label>  
+  <div class="col-md-5">
+  <input id="long" name="long" type="text" placeholder="Longitude of plant location" class="form-control input-md" required="">
+    
+  </div>
+</div>
+
+<!-- Button (Double) -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="addplant"></label>
+  <div class="col-md-8">
+    <button  name="addplant" class="btn btn-success" type="submit">Add Plant</button>
+  </div>
+</div>
+
+</fieldset>
+</form>
+
+
+   </div>
+</div>    
+<!------------------------------------------------------------------------------------------>
+
+<script>
+// Tabbed Menu
+function openMenu(evt, menuName) {
+  var i, x, tablinks;
+  x = document.getElementsByClassName("menu");
+  for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < x.length; i++) {
+     tablinks[i].className = tablinks[i].className.replace(" w3-dark-grey", "");
+  }
+  document.getElementById(menuName).style.display = "block";
+  evt.currentTarget.firstElementChild.className += " w3-dark-grey";
+}
+document.getElementById("myLink").click();
+</script>
+<script>
+Highcharts.chart('container1', {
+
+    chart: {
+        type: 'gauge',
+        plotBackgroundColor: null,
+        plotBackgroundImage: null,
+        plotBorderWidth: 0,
+        plotShadow: false
+    },
+
+    title: {
+        text: 'temperature readings'
+    },
+
+    pane: {
+        startAngle: -150,
+        endAngle: 150,
+        background: [{
+            backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                    [0, '#FFF'],
+                    [1, '#333']
+                ]
+            },
+            borderWidth: 0,
+            outerRadius: '109%'
+        }, {
+            backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                    [0, '#333'],
+                    [1, '#FFF']
+                ]
+            },
+            borderWidth: 1,
+            outerRadius: '107%'
+        }, {
+            // default background
+        }, {
+            backgroundColor: '#DDD',
+            borderWidth: 0,
+            outerRadius: '105%',
+            innerRadius: '103%'
+        }]
+    },
+
+    // the value axis
+    yAxis: {
+        min: 0,
+        max: 60,
+
+        minorTickInterval: 'auto',
+        minorTickWidth: 1,
+        minorTickLength: 10,
+        minorTickPosition: 'inside',
+        minorTickColor: '#666',
+
+        tickPixelInterval: 30,
+        tickWidth: 2,
+        tickPosition: 'inside',
+        tickLength: 10,
+        tickColor: '#666',
+        labels: {
+            step: 2,
+            rotation: 'auto'
+        },
+        title: {
+            text: 'Celsius'
+        },
+        plotBands: [{
+            from: 0,
+            to: 30,
+            color: '#55BF3B' // green
+        }, {
+            from: 30,
+            to: 50,
+            color: '#DDDF0D' // yellow
+        }, {
+            from: 50,
+            to: 60,
+            color: '#DF5353' // red
+        }]
+    },
+
+  series: [{
+     name: 'temperature',
+      data: [parseInt({{sensor1}})],
+       tooltip: {
+        valueSuffix: 'Celsius'
+       }
+    }]
+
+},
+// Add some life
+function (chart) {
+    if (!chart.renderer.forExport) {
+        setInterval(function () {
+            var point = chart.series[0].points[0],
+                newVal,
+              //  inc = 40;
+
+            newVal = parseInt({{sensor1}});
+            point.update(newVal);
+
+        }, 3000);
+    }
+});
+</script>
+<script>
+Highcharts.chart('container2', {
+
+    chart: {
+        type: 'gauge',
+        plotBackgroundColor: null,
+        plotBackgroundImage: null,
+        plotBorderWidth: 0,
+        plotShadow: false
+    },
+
+    title: {
+        text: 'Humidity readings'
+    },
+
+    pane: {
+        startAngle: -150,
+        endAngle: 150,
+        background: [{
+            backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                    [0, '#FFF'],
+                    [1, '#333']
+                ]
+            },
+            borderWidth: 0,
+            outerRadius: '109%'
+        }, {
+            backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                    [0, '#333'],
+                    [1, '#FFF']
+                ]
+            },
+            borderWidth: 1,
+            outerRadius: '107%'
+        }, {
+            // default background
+        }, {
+            backgroundColor: '#DDD',
+            borderWidth: 0,
+            outerRadius: '105%',
+            innerRadius: '103%'
+        }]
+    },
+
+    // the value axis
+    yAxis: {
+        min: 0,
+        max: 200,
+
+        minorTickInterval: 'auto',
+        minorTickWidth: 1,
+        minorTickLength: 10,
+        minorTickPosition: 'inside',
+        minorTickColor: '#666',
+
+        tickPixelInterval: 30,
+        tickWidth: 2,
+        tickPosition: 'inside',
+        tickLength: 10,
+        tickColor: '#666',
+        labels: {
+            step: 2,
+            rotation: 'auto'
+        },
+        title: {
+            text: 'g/cc'
+        },
+        plotBands: [{
+            from: 0,
+            to: 70,
+            color: '#55BF3B' // green
+        }, {
+            from: 70,
+            to: 130,
+            color: '#DDDF0D' // yellow
+        }, {
+            from: 130,
+            to: 200,
+            color: '#DF5353' // red
+        }]
+    },
+
+  series: [{
+     name: 'Humidity',
+      data: [parseInt({{sensor2}})],
+       tooltip: {
+        valueSuffix: 'g/cc'
+       }
+    }]
+
+},
+// Add some life
+function (chart) {
+    if (!chart.renderer.forExport) {
+        setInterval(function () {
+            var point = chart.series[0].points[0],
+                newVal,
+              //  inc = 40;
+
+            newVal = parseInt({{sensor2}});
+            point.update(newVal);
+
+        }, 3000);
+    }
+});
+</script>
+<script>
+Highcharts.chart('container3', {
+
+    chart: {
+        type: 'gauge',
+        plotBackgroundColor: null,
+        plotBackgroundImage: null,
+        plotBorderWidth: 0,
+        plotShadow: false
+    },
+
+    title: {
+        text: 'Soil moisture readings'
+    },
+
+    pane: {
+        startAngle: -150,
+        endAngle: 150,
+        background: [{
+            backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                    [0, '#FFF'],
+                    [1, '#333']
+                ]
+            },
+            borderWidth: 0,
+            outerRadius: '109%'
+        }, {
+            backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                    [0, '#333'],
+                    [1, '#FFF']
+                ]
+            },
+            borderWidth: 1,
+            outerRadius: '107%'
+        }, {
+            // default background
+        }, {
+            backgroundColor: '#DDD',
+            borderWidth: 0,
+            outerRadius: '105%',
+            innerRadius: '103%'
+        }]
+    },
+
+    // the value axis
+    yAxis: {
+        min: 0,
+        max: 100,
+
+        minorTickInterval: 'auto',
+        minorTickWidth: 1,
+        minorTickLength: 10,
+        minorTickPosition: 'inside',
+        minorTickColor: '#666',
+
+        tickPixelInterval: 30,
+        tickWidth: 2,
+        tickPosition: 'inside',
+        tickLength: 10,
+        tickColor: '#666',
+        labels: {
+            step: 2,
+            rotation: 'auto'
+        },
+        title: {
+            text: '%'
+        },
+        plotBands: [{
+            from: 0,
+            to: 33,
+            color: '#55BF3B' // green
+        }, {
+            from: 33,
+            to: 66,
+            color: '#DDDF0D' // yellow
+        }, {
+            from:66,
+            to: 100,
+            color: '#DF5353' // red
+        }]
+    },
+
+  series: [{
+     name: 'Soil moisture',
+      data: [parseInt({{sensor3}})],
+       tooltip: {
+        valueSuffix: '%'
+       }
+    }]
+
+},
+// Add some life
+function (chart) {
+    if (!chart.renderer.forExport) {
+        setInterval(function () {
+            var point = chart.series[0].points[0],
+                newVal,
+              //  inc = 40;
+
+            newVal = parseInt({{sensor3}});
+            point.update(newVal);
+
+        }, 3000);
+    }
+});
+</script>
+<script>
+Highcharts.chart('container4', {
+
+    chart: {
+        type: 'gauge',
+        plotBackgroundColor: null,
+        plotBackgroundImage: null,
+        plotBorderWidth: 0,
+        plotShadow: false
+    },
+
+    title: {
+        text: 'soilmoisture'
+    },
+
+    pane: {
+        startAngle: -150,
+        endAngle: 150,
+        background: [{
+            backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                    [0, '#FFF'],
+                    [1, '#333']
+                ]
+            },
+            borderWidth: 0,
+            outerRadius: '109%'
+        }, {
+            backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                    [0, '#333'],
+                    [1, '#FFF']
+                ]
+            },
+            borderWidth: 1,
+            outerRadius: '107%'
+        }, {
+            // default background
+        }, {
+            backgroundColor: '#DDD',
+            borderWidth: 0,
+            outerRadius: '105%',
+            innerRadius: '103%'
+        }]
+    },
+
+    // the value axis
+    yAxis: {
+        min: 0,
+        max: 100,
+
+        minorTickInterval: 'auto',
+        minorTickWidth: 1,
+        minorTickLength: 10,
+        minorTickPosition: 'inside',
+        minorTickColor: '#666',
+
+        tickPixelInterval: 30,
+        tickWidth: 2,
+        tickPosition: 'inside',
+        tickLength: 10,
+        tickColor: '#666',
+        labels: {
+            step: 2,
+            rotation: 'auto'
+        },
+        title: {
+            text: '%'
+        },
+        plotBands: [{
+            from: 0,
+            to: 33,
+            color: '#55BF3B' // green
+        }, {
+            from: 33,
+            to: 66,
+            color: '#DDDF0D' // yellow
+        }, {
+            from:66,
+            to: 100,
+            color: '#DF5353' // red
+        }]
+    },
+
+  series: [{
+     name: 'soilmoisture',
+      data: [parseInt({{sensor6}})],
+       tooltip: {
+        valueSuffix: 'cm'
+       }
+    }]
+
+},
+// Add some life
+function (chart) {
+    if (!chart.renderer.forExport) {
+        setInterval(function () {
+            var point = chart.series[0].points[0],
+                newVal,
+              //  inc = 40;
+
+            newVal = parseInt({{sensor6}});
+            point.update(newVal);
+
+        }, 3000);
+    }
+});
+</script>
+<script>
+Highcharts.chart('container5', {
+
+    chart: {
+        type: 'gauge',
+        plotBackgroundColor: null,
+        plotBackgroundImage: null,
+        plotBorderWidth: 0,
+        plotShadow: false
+    },
+
+    title: {
+        text: 'temperature readings'
+    },
+
+    pane: {
+        startAngle: -150,
+        endAngle: 150,
+        background: [{
+            backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                    [0, '#FFF'],
+                    [1, '#333']
+                ]
+            },
+            borderWidth: 0,
+            outerRadius: '109%'
+        }, {
+            backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                    [0, '#333'],
+                    [1, '#FFF']
+                ]
+            },
+            borderWidth: 1,
+            outerRadius: '107%'
+        }, {
+            // default background
+        }, {
+            backgroundColor: '#DDD',
+            borderWidth: 0,
+            outerRadius: '105%',
+            innerRadius: '103%'
+        }]
+    },
+
+    // the value axis
+    yAxis: {
+        min: 0,
+        max: 60,
+
+        minorTickInterval: 'auto',
+        minorTickWidth: 1,
+        minorTickLength: 10,
+        minorTickPosition: 'inside',
+        minorTickColor: '#666',
+
+        tickPixelInterval: 30,
+        tickWidth: 2,
+        tickPosition: 'inside',
+        tickLength: 10,
+        tickColor: '#666',
+        labels: {
+            step: 2,
+            rotation: 'auto'
+        },
+        title: {
+            text: 'Celsius'
+        },
+        plotBands: [{
+            from: 0,
+            to: 30,
+            color: '#55BF3B' // green
+        }, {
+            from: 30,
+            to: 50,
+            color: '#DDDF0D' // yellow
+        }, {
+            from: 50,
+            to: 60,
+            color: '#DF5353' // red
+        }]
+    },
+
+  series: [{
+     name: 'temperature',
+      data: [parseInt({{sensor1}})],
+       tooltip: {
+        valueSuffix: 'Celsius'
+       }
+    }]
+
+},
+// Add some life
+function (chart) {
+    if (!chart.renderer.forExport) {
+        setInterval(function () {
+            var point = chart.series[0].points[0],
+                newVal,
+              //  inc = 40;
+
+            newVal = parseInt({{sensor1}});
+            point.update(newVal);
+
+        }, 3000);
+    }
+});
+</script>
+<script>
+Highcharts.chart('container6', {
+
+    chart: {
+        type: 'gauge',
+        plotBackgroundColor: null,
+        plotBackgroundImage: null,
+        plotBorderWidth: 0,
+        plotShadow: false
+    },
+
+    title: {
+        text: 'Humidity readings'
+    },
+
+    pane: {
+        startAngle: -150,
+        endAngle: 150,
+        background: [{
+            backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                    [0, '#FFF'],
+                    [1, '#333']
+                ]
+            },
+            borderWidth: 0,
+            outerRadius: '109%'
+        }, {
+            backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                    [0, '#333'],
+                    [1, '#FFF']
+                ]
+            },
+            borderWidth: 1,
+            outerRadius: '107%'
+        }, {
+            // default background
+        }, {
+            backgroundColor: '#DDD',
+            borderWidth: 0,
+            outerRadius: '105%',
+            innerRadius: '103%'
+        }]
+    },
+
+    // the value axis
+    yAxis: {
+        min: 0,
+        max: 200,
+
+        minorTickInterval: 'auto',
+        minorTickWidth: 1,
+        minorTickLength: 10,
+        minorTickPosition: 'inside',
+        minorTickColor: '#666',
+
+        tickPixelInterval: 30,
+        tickWidth: 2,
+        tickPosition: 'inside',
+        tickLength: 10,
+        tickColor: '#666',
+        labels: {
+            step: 2,
+            rotation: 'auto'
+        },
+        title: {
+            text: 'g/cc'
+        },
+        plotBands: [{
+            from: 0,
+            to: 70,
+            color: '#55BF3B' // green
+        }, {
+            from: 70,
+            to: 130,
+            color: '#DDDF0D' // yellow
+        }, {
+            from: 130,
+            to: 200,
+            color: '#DF5353' // red
+        }]
+    },
+
+  series: [{
+     name: 'Humidity',
+      data: [parseInt({{sensor2}})],
+       tooltip: {
+        valueSuffix: 'g/cc'
+       }
+    }]
+
+},
+// Add some life
+function (chart) {
+    if (!chart.renderer.forExport) {
+        setInterval(function () {
+            var point = chart.series[0].points[0],
+                newVal,
+              //  inc = 40;
+
+            newVal = parseInt({{sensor2}});
+            point.update(newVal);
+
+        }, 3000);
+    }
+});
+</script>
+<script>
+ var gaugeOptions = {
+
+    chart: {
+        type: 'solidgauge'
+    },
+
+    title: null,
+
+    pane: {
+        center: ['50%', '85%'],
+        size: '140%',
+        startAngle: -90,
+        endAngle: 90,
+        background: {
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+            innerRadius: '60%',
+            outerRadius: '100%',
+            shape: 'arc'
+        }
+    },
+
+    tooltip: {
+        enabled: false
+    },
+
+    // the value axis
+    yAxis: {
+        stops: [
+            [0.1, '#55BF3B'], // green
+            [0.5, '#DDDF0D'], // yellow
+            [0.9, '#DF5353'] // red
+        ],
+        lineWidth: 0,
+        minorTickInterval: null,
+        tickAmount: 2,
+        title: {
+            y: -70
+        },
+        labels: {
+            y: 16
+        }
+    },
+
+    plotOptions: {
+        solidgauge: {
+            dataLabels: {
+                y: 5,
+                borderWidth: 0,
+                useHTML: true
+            }
+        }
+    }
+};
+
+// The speed gauge
+var charttemp = Highcharts.chart('container-temp', Highcharts.merge(gaugeOptions, {
+    yAxis: {
+        min: 0,
+        max: 60,
+        title: {
+            text: 'Temperature'
+        }
+    },
+
+    credits: {
+        enabled: false
+    },
+
+    series: [{
+        name: 'Temperature',
+        data: [parseInt({{sensor1}})],
+        dataLabels: {
+            format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+                   '<span style="font-size:12px;color:silver">Celcius</span></div>'
+        },
+        tooltip: {
+            valueSuffix: ' C'
+        }
+    }]
+
+}));
+
+var charthumi = Highcharts.chart('container-humi', Highcharts.merge(gaugeOptions, {
+    yAxis: {
+        min: 0,
+        max: 200,
+        title: {
+            text: 'Humidity'
+        }
+    },
+
+    credits: {
+        enabled: false
+    },
+
+    series: [{
+        name: 'Humidity',
+        data: [parseInt({{sensor2}})],
+        dataLabels: {
+            format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+                   '<span style="font-size:12px;color:silver">g/cm3</span></div>'
+        },
+        tooltip: {
+            valueSuffix: ' g/cm3'
+        }
+    }]
+
+}));
+
+var chartmoi = Highcharts.chart('container-moi', Highcharts.merge(gaugeOptions, {
+    yAxis: {
+        min: 0,
+        max: 100,
+        title: {
+            text: 'Soil moisture'
+        }
+    },
+
+    credits: {
+        enabled: false
+    },
+
+    series: [{
+        name: 'soilmoisture',
+        data: [parseInt({{sensor3}})],
+        dataLabels: {
+            format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+                   '<span style="font-size:12px;color:silver">%</span></div>'
+        },
+        tooltip: {
+            valueSuffix: '%'
+        }
+    }]
+
+}));
+var chartlevel = Highcharts.chart('container-level', Highcharts.merge(gaugeOptions, {
+    yAxis: {
+        min: 0,
+        max: 1000,
+        title: {
+            text: 'water-level'
+        }
+    },
+
+    credits: {
+        enabled: false
+    },
+
+    series: [{
+        name: 'water-level',
+        data: [parseInt({{sensor4}})],
+        dataLabels: {
+            format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+                   '<span style="font-size:12px;color:silver">cm</span></div>'
+        },
+        tooltip: {
+            valueSuffix: 'cm'
+        }
+    }]
+
+}));
+var chartsensor = Highcharts.chart('container-sensor', Highcharts.merge(gaugeOptions, {
+    yAxis: {
+        min: 0,
+        max: 1000,
+        title: {
+            text: 'water-sensor'
+        }
+    },
+
+    credits: {
+        enabled: false
+    },
+
+    series: [{
+        name: 'water-sensor',
+        data: [parseInt({{sensor5}})],
+        dataLabels: {
+            format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+                   '<span style="font-size:12px;color:silver">reading</span></div>'
+        },
+        tooltip: {
+            valueSuffix: 'readings'
+        }
+    }]
+
+}));
+// Bring life to the dials
+setInterval(function () {
+    // Speed
+    var point,
+        newVal,
+        inc;
+
+    if (charttemp) {
+        point = charttemp.series[0].points[0];
+        newVal = parseInt({{sensor1}});
+        point.update(newVal);
+    }
+  if (chartmoi) {
+        point = chartmoi.series[0].points[0];
+        newVal = parseInt({{sensor3}});
+        point.update(newVal);
+    }
+    // RPM
+    if (charthumi) {
+        point = charthumi.series[0].points[0];
+        newVal = parseInt({{sensor2}});
+        point.update(newVal);
+    }
+    if (chartlevel) {
+        point = chartlevel.series[0].points[0];
+        newVal = parseInt({{sensor4}});
+        point.update(newVal);
+    }
+     if (chartsensor) {
+        point = chartsensor.series[0].points[0];
+        newVal = parseInt({{sensor5}});
+        point.update(newVal);
+    }
+}, 2000);
+</script>
+</body>
+</html>
